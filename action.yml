@@ -14,6 +14,6 @@ runs:
       with:
         GITHUB_TOKEN: ${{ github.token }}
         message: |
-        ```
-        ${{ steps.run-git-diff.outputs.diff-output }}
-        ```
+          ```
+          ${{ steps.run-git-diff.outputs.diff-output }}
+          ```
