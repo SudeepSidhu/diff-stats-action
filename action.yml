@@ -10,6 +10,8 @@ runs:
     - id: run-git-diff
       run: ${{ github.action_path }}/diff.sh
       shell: bash
+      env:
+        DIFF_OPTIONS: ${{ inputs.diff-options }}
     - uses: thollander/actions-comment-pull-request@1.0.1
       with:
         GITHUB_TOKEN: ${{ github.token }}
