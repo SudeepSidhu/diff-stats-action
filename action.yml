@@ -12,6 +12,7 @@ runs:
       shell: bash
       env:
         DIFF_OPTIONS: ${{ inputs.diff-options }}
+        GITHUB_TOKEN: ${{ github.token }}
     - uses: thollander/actions-comment-pull-request@1.0.1
       with:
         GITHUB_TOKEN: ${{ github.token }}
