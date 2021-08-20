@@ -1,0 +1,19 @@
+name: 'Diff Action'
+description: 'An action that runs git diff against the base branch and comments back with the diff stats'
+inputs:
+  diff-options:
+    description: 'Options to be passed into the `git diff` call'
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - id: run-git-diff
+      run: ${{ github.action_path }}/diff.sh
+      shell: bash
+    - uses: thollander/actions-comment-pull-request@1.0.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        message: |
+        ```
+        ${{ steps.run-git-diff.outputs.diff-output }}
+        ```
