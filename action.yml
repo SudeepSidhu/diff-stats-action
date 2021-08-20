@@ -12,7 +12,7 @@ runs:
       shell: bash
     - uses: thollander/actions-comment-pull-request@1.0.1
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ github.token }}
         message: |
         ```
         ${{ steps.run-git-diff.outputs.diff-output }}
