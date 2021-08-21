@@ -32,8 +32,6 @@ set -o xtrace
 git checkout $BASE_BRANCH && git pull
 git checkout $HEAD_BRANCH && git pull
 
-OUTPUT=$(git diff $BASE_BRANCH...$HEAD_BRANCH --stat ${DIFF_OPTIONS})
+OUTPUT=$(git diff $BASE_BRANCH...$HEAD_BRANCH --stat ${DIFF_OPTIONS} | tail -1)
 
-echo $OUTPUT
-
-echo "::set-output name=diff-output::$(echo $(echo $OUTPUT | tail -1))"
+echo "::set-output name=diff-output::$(echo $OUTPUT)"
