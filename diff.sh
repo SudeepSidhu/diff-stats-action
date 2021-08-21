@@ -32,7 +32,7 @@ set -o xtrace
 git checkout $BASE_BRANCH && git pull
 git checkout $HEAD_BRANCH && git pull
 
-OUTPUT=$(git diff $BASE_BRANCH...$BASE_BRANCH --stat ${DIFF_OPTIONS})
+OUTPUT=$(git diff $BASE_BRANCH...$HEAD_BRANCH --stat ${DIFF_OPTIONS})
 
 echo $OUTPUT
 
