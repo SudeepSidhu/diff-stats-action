@@ -17,6 +17,7 @@ runs:
       with:
         GITHUB_TOKEN: ${{ github.token }}
         message: |
+          Diff stats:
           ```
           ${{ steps.run-git-diff.outputs.diff-output }}
           ```
