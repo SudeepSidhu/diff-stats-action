@@ -1,4 +1,4 @@
-name: 'Diff Action'
+name: 'Diff Stats Action'
 description: 'An action that runs git diff against the base branch and comments back with the diff stats'
 inputs:
   diff-options:
