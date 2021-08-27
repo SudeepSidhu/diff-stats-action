@@ -1,5 +1,10 @@
 name: 'Diff Stats Action'
 description: 'An action that runs git diff against the base branch and comments back with the diff stats'
+author: 'Sudeep Sidhu'
+branding:
+  icon: 'bar-chart-2'  
+  color: 'green'
+
 inputs:
   diff-options:
     description: 'Options to be passed into the `git diff` call'
