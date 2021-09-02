@@ -1,5 +1,12 @@
 # Diff Stats Action
-An action that runs `git diff` on your PR and comments back with the diff stats. Goes a little bit beyond the stats reported by GitHub by letting you specifiy options to pass into `git diff` call (e.g. ignore certain files). You can also make this action label the PR with predefined sizes (extra-small, small, medium, large, extra-large). Both the label names and size values are configurable.
+An action that runs `git diff` on your PR and comments back with the diff stats. Goes a little bit beyond the stats reported by GitHub by letting you specifiy options to pass into `git diff` call (e.g. ignore certain files). You can also make this action label the PR with predefined sizes. Both the label names and size values are configurable. The labels will need to be created for the repository, this workflow does not create the size labels for you.
+
+The default label names are:
+- extra-small
+- small
+- medium
+- large
+- extra-large
 
 ### Workflow example:
 
