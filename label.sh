@@ -18,7 +18,7 @@ if [[ "$PR_NUMBER" == "null" ]]; then
   exit 1
 fi
 
-if [[ $DIFF_OUTPUT =~ ([0-9]+)( insertions) ]]; then
+if [[ "$DIFF_OUTPUT" =~ ([0-9]+)( insertions) ]]; then
   INSERTIONS=${BASH_REMATCH[1]}
 else
   echo "Could not extract insertions from \"$DIFF_OUTPUT\" - exiting..."
@@ -40,6 +40,8 @@ else
 fi
 
 # Get the current labels to see if we actually need to add a label
+echo "Collecting information about PR #$PR_NUMBER of $GITHUB_REPOSITORY..."
+
 API_URI=https://api.github.com
 API_HEADER="Accept: application/vnd.github.v3+json"
 AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
@@ -48,7 +50,7 @@ PR_RESP=$(curl -X GET -s -H "${AUTH_HEADER}" -H "${API_HEADER}" \
   "${API_URI}/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
 
 for EXISTING_LABEL in $(echo "$PR_RESP" | jq -rc .labels[].name); do 
- if [[ $EXISTING_LABEL == $LABEL ]]; then
+ if [[ "$EXISTING_LABEL" == "$LABEL" ]]; then
    echo "PR already has $LABEL label - nothing to do here!"
    exit 0
  fi

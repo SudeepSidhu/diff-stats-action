@@ -5,29 +5,29 @@ set -e
 PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
 
 if [[ "$PR_NUMBER" == "null" ]]; then
-	PR_NUMBER=$(jq -r ".issue.number" "$GITHUB_EVENT_PATH")
+  PR_NUMBER=$(jq -r ".issue.number" "$GITHUB_EVENT_PATH")
 fi
 
 if [[ "$PR_NUMBER" == "null" ]]; then
-	echo "Failed to determine PR Number."
-	exit 1
+  echo "Failed to determine PR Number."
+  exit 1
 fi
 
 echo "Collecting information about PR #$PR_NUMBER of $GITHUB_REPOSITORY..."
 
-URI=https://api.github.com
+API_URI=https://api.github.com
 API_HEADER="Accept: application/vnd.github.v3+json"
 AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
 
 PR_RESP=$(curl -X GET -s -H "${AUTH_HEADER}" -H "${API_HEADER}" \
-          "${URI}/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
+  "${API_URI}/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
 
 BASE_BRANCH=$(echo "$PR_RESP" | jq -r .base.ref)
 HEAD_BRANCH=$(echo "$PR_RESP" | jq -r .head.ref)
 
 if [[ -z "$BASE_BRANCH" ]]; then
-	echo "Cannot get base branch information for PR #$PR_NUMBER!"
-	exit 1
+  echo "Cannot get base branch information for PR #$PR_NUMBER!"
+  exit 1
 fi
 
 set -o xtrace
