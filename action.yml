@@ -12,43 +12,43 @@ inputs:
   add-size-label:
     description: 'Should the workflow label the PR with the size tag?'
     required: false
-    default: 'false'
+    default: false
   extra-small-label:
     description: 'Name of the "extra small" label'
     required: false
-    default: 'extra-small'
+    default: extra-small
   extra-small-size:
     description: 'Maximum number of insertions to be labeled with an "extra small" label'
     required: false
-    default: '50'
+    default: 50
   small-label:
     description: 'Name of the "small" label'
     required: false
-    default: 'small'
+    default: small
   small-size:
     description: 'Maximum number of insertions to be labeled with a "small" label'
     required: false
-    default: '100'
+    default: 100
   medium-label:
     description: 'Name of the "medium" label'
     required: false
-    default: 'medium'
+    default: medium
   medium-size:
     description: 'Maximum number of insertions to be labeled with a "medium" label'
     required: false
-    default: '300'
+    default: 300
   large-label:
     description: 'Name of the "large" label'
     required: false
-    default: 'large'
+    default: large
   large-size:
     description: 'Maximum number of insertions to be labeled with a "large" label'
     required: false
-    default: '500'
+    default: 500
   extra-large-label:
     description: 'Name of the "extra-large" label'
     required: false
-    default: 'extra-large'
+    default: extra-large
 
 runs:
   using: 'composite'
