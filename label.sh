@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 if [[ "$ADD_SIZE_LABEL" != "true" ]]; then
   echo "Skipping size labelling as it wasn't requested"
@@ -38,12 +38,12 @@ else
 fi
 
 # Get the current labels to see if we actually need to add a label
-URI=https://api.github.com
+API_URI=https://api.github.com
 API_HEADER="Accept: application/vnd.github.v3+json"
 AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
 
 PR_RESP=$(curl -X GET -s -H "${AUTH_HEADER}" -H "${API_HEADER}" \
-  "${URI}/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
+  "${API_URI}/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
 
 for EXISTING_LABEL in $(echo "$PR_RESP" | jq -rc .labels[].name); do 
  if [[ $EXISTING_LABEL == $LABEL ]]; then
@@ -52,7 +52,7 @@ for EXISTING_LABEL in $(echo "$PR_RESP" | jq -rc .labels[].name); do
  fi
 done
 
-# Remove all the size labels and add the new label
+# Remove all the size labels and add the new one
 ALL_LABELS="$EXTRA_SMALL_LABEL,$SMALL_LABEL,$MEDIUM_LABEL,$LARGE_LABEL,$EXTRA_LARGE_LABEL"
 
 echo "Removing $ALL_LABELS labels and adding $LABEL"
