@@ -37,6 +37,22 @@ else
   LABEL=$EXTRA_LARGE_LABEL
 fi
 
+# Get the current labels to see if we actually need to add a label
+URI=https://api.github.com
+API_HEADER="Accept: application/vnd.github.v3+json"
+AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
+
+PR_RESP=$(curl -X GET -s -H "${AUTH_HEADER}" -H "${API_HEADER}" \
+  "${URI}/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
+
+for EXISTING_LABEL in $(echo "$PR_RESP" | jq -rc .labels[].name); do 
+ if [[ $EXISTING_LABEL == $LABEL ]]; then
+   echo "PR already has $LABEL label - nothing to do here!"
+   exit 0
+ fi
+done
+
+# Remove all the size labels and add the new label
 ALL_LABELS="$EXTRA_SMALL_LABEL,$SMALL_LABEL,$MEDIUM_LABEL,$LARGE_LABEL,$EXTRA_LARGE_LABEL"
 
 echo "Removing $ALL_LABELS labels and adding $LABEL"
