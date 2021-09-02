@@ -70,11 +70,11 @@ runs:
           ${{ steps.run-git-diff.outputs.diff-output }}
           ```
     - name: Add size label
-      if: inputs.add-size-label == 'true'
       run: ${{ github.action_path }}/label.sh
       shell: bash
       env:
         GITHUB_TOKEN: ${{ github.token }}
+        ADD_SIZE_LABEL: ${{ inputs.add-size-label }}
         DIFF_OUTPUT: ${{ steps.run-git-diff.outputs.diff-output }}
         EXTRA_SMALL_LABEL: ${{ inputs.extra-small-label }}
         EXTRA_SMALL_SIZE: ${{ inputs.extra-small-size }}

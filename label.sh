@@ -2,6 +2,11 @@
 
 set -ex
 
+if [[ "$ADD_SIZE_LABEL" != "true" ]]; then
+  echo "Skipping size labelling as it wasn't requested"
+  exit 0
+fi
+
 PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
 
 if [[ "$PR_NUMBER" == "null" ]]; then
