@@ -25,6 +25,8 @@ else
   exit 0
 fi
 
+echo "Insertion count: $INSERTIONS"
+
 if (( $INSERTIONS <= $EXTRA_SMALL_SIZE )); then
   LABEL=$EXTRA_SMALL_LABEL
 elif (( $INSERTIONS <= $SMALL_SIZE )); then
