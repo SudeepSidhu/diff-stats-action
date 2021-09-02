@@ -54,12 +54,14 @@ runs:
   using: 'composite'
   steps:
     - id: run-git-diff
+      name: Run git diff
       run: ${{ github.action_path }}/diff.sh
       shell: bash
       env:
         DIFF_OPTIONS: ${{ inputs.diff-options }}
         GITHUB_TOKEN: ${{ github.token }}
-    - uses: thollander/actions-comment-pull-request@1.0.1
+    - name: Add diff stats comment
+      uses: thollander/actions-comment-pull-request@1.0.1
       with:
         GITHUB_TOKEN: ${{ github.token }}
         message: |
@@ -67,7 +69,8 @@ runs:
           ```
           ${{ steps.run-git-diff.outputs.diff-output }}
           ```
-    - if: ${{ inputs.add-size-label == 'true' }}
+    - name: Add size label
+      if: ${{ inputs.add-size-label == 'true' }}
       run: ${{ github.action_path }}/label.sh
       shell: bash
       env:
