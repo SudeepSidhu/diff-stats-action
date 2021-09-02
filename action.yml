@@ -1,5 +1,5 @@
 name: 'Diff Stats Action'
-description: 'An action that runs git diff against the base branch and comments back with the diff stats'
+description: 'An action that runs git diff against the base branch and comments back with the diff stats and optionally label the PR with its size.'
 author: 'Sudeep Sidhu'
 branding:
   icon: 'bar-chart-2'  
@@ -9,6 +9,47 @@ inputs:
   diff-options:
     description: 'Options to be passed into the `git diff` call'
     required: false
+  add-size-label:
+    description: 'Should the workflow label the PR with the size tag?'
+    required: false
+    default: 'false'
+  extra-small-label:
+    description: 'Name of the "extra small" label'
+    required: false
+    default: 'extra-small'
+  extra-small-size:
+    description: 'Maximum number of insertions to be labeled with an "extra small" label'
+    required: false
+    default: '50'
+  small-label:
+    description: 'Name of the "small" label'
+    required: false
+    default: 'small'
+  small-size:
+    description: 'Maximum number of insertions to be labeled with a "small" label'
+    required: false
+    default: '100'
+  medium-label:
+    description: 'Name of the "medium" label'
+    required: false
+    default: 'medium'
+  medium-size:
+    description: 'Maximum number of insertions to be labeled with a "medium" label'
+    required: false
+    default: '300'
+  large-label:
+    description: 'Name of the "large" label'
+    required: false
+    default: 'large'
+  large-size:
+    description: 'Maximum number of insertions to be labeled with a "large" label'
+    required: false
+    default: '500'
+  extra-large-label:
+    description: 'Name of the "extra-large" label'
+    required: false
+    default: 'extra-large'
+
 runs:
   using: 'composite'
   steps:
@@ -26,3 +67,18 @@ runs:
           ```
           ${{ steps.run-git-diff.outputs.diff-output }}
           ```
+    - if: ${{ inputs.add-size-label == 'true' }}
+      run: ${{ github.action_path }}/label.sh
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        DIFF_OUTPUT: ${{ steps.run-git-diff.outputs.diff-output }}
+        EXTRA_SMALL_LABEL: ${{ inputs.extra-small-label }}
+        EXTRA_SMALL_SIZE: ${{ inputs.extra-small-size }}
+        SMALL_LABEL: ${{ inputs.small-label }}
+        SMALL_SIZE: ${{ inputs.small-size }}
+        MEDIUM_LABEL: ${{ inputs.medium-label }}
+        MEDIUM_SIZE: ${{ inputs.medium-size }}
+        LARGE_LABEL: ${{ inputs.large-label }}
+        LARGE_SIZE: ${{ inputs.large-size }}
+        EXTRA_LARGE_LABEL: ${{ inputs.extra-large-label }}
