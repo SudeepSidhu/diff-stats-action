@@ -41,4 +41,5 @@ ALL_LABELS="$EXTRA_SMALL_LABEL,$SMALL_LABEL,$MEDIUM_LABEL,$LARGE_LABEL,$EXTRA_LA
 
 echo "Removing $ALL_LABELS labels and adding $LABEL"
 
-gh pr edit $PR_NUMBER --add-label $LABEL
+gh pr edit $PR_NUMBER --remove-label "$ALL_LABELS"
+# gh pr edit $PR_NUMBER --add-label $LABEL
