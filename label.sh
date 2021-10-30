@@ -18,7 +18,7 @@ if [[ "$PR_NUMBER" == "null" ]]; then
   exit 1
 fi
 
-if [[ "$DIFF_OUTPUT" =~ ([0-9]+)( insertions) ]]; then
+if [[ "$DIFF_OUTPUT" =~ ([0-9]+)( insertion) ]]; then
   INSERTIONS=${BASH_REMATCH[1]}
 else
   echo "Could not extract insertions from \"$DIFF_OUTPUT\" - exiting..."
