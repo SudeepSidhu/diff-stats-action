@@ -85,25 +85,15 @@ runs:
         issue-number: ${{ github.event.pull_request.number }}
         comment-author: 'github-actions[bot]'
         body-includes: 'Diff stats:'
-
-    - name: Add diff stats comment
-      if: steps.find-comment.outputs.comment-id == ''
+    
+    - name: Create or update diff stats comment
       uses: peter-evans/create-or-update-comment@v1.4.5
       with:
+        comment-id: ${{ steps.find-comment.outputs.comment-id }}
         issue-number: ${{ github.event.pull_request.number }}
         body: |
           Diff stats:
           ```
           ${{ steps.run-git-diff.outputs.diff-output }}
           ```
-
-    - name: Update diff stats comment
-      if: steps.find-comment.outputs.comment-id != ''
-      uses: peter-evans/create-or-update-comment@v1.4.5
-      with:
-        comment-id: ${{ steps.find-comment.outputs.comment-id }}
-        body: |
-          Diff stats:
-          ```
-          ${{ steps.run-git-diff.outputs.diff-output }}
-          ```
+        edit-mode: replace
