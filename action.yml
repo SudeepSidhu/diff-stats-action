@@ -60,15 +60,7 @@ runs:
       env:
         DIFF_OPTIONS: ${{ inputs.diff-options }}
         GITHUB_TOKEN: ${{ github.token }}
-    - name: Add diff stats comment
-      uses: thollander/actions-comment-pull-request@1.0.1
-      with:
-        GITHUB_TOKEN: ${{ github.token }}
-        message: |
-          Diff stats:
-          ```
-          ${{ steps.run-git-diff.outputs.diff-output }}
-          ```
+
     - name: Add size label
       run: ${{ github.action_path }}/label.sh
       shell: bash
@@ -85,3 +77,23 @@ runs:
         LARGE_LABEL: ${{ inputs.large-label }}
         LARGE_SIZE: ${{ inputs.large-size }}
         EXTRA_LARGE_LABEL: ${{ inputs.extra-large-label }}
+
+    - id: find-comment 
+      name: Find existing diff stats comment
+      uses: peter-evans/find-comment@v1.3.0
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-author: 'github-actions[bot]'
+        body-includes: 'Diff stats:'
+    
+    - name: Create or update diff stats comment
+      uses: peter-evans/create-or-update-comment@v1.4.5
+      with:
+        comment-id: ${{ steps.find-comment.outputs.comment-id }}
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          Diff stats:
+          ```
+          ${{ steps.run-git-diff.outputs.diff-output }}
+          ```
+        edit-mode: replace
