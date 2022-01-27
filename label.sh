@@ -49,12 +49,12 @@ AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
 PR_RESP=$(curl -X GET -s -H "${AUTH_HEADER}" -H "${API_HEADER}" \
   "${API_URI}/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
 
-for EXISTING_LABEL in $(echo "$PR_RESP" | jq -rc .labels[].name); do 
- if [[ "$EXISTING_LABEL" == "$LABEL" ]]; then
-   echo "PR already has $LABEL label - nothing to do here!"
-   exit 0
- fi
-done
+while IFS= read -r EXISTING_LABEL; do
+  if [[ "$EXISTING_LABEL" == "$LABEL" ]]; then
+    echo "PR already has $LABEL label - nothing to do here!"
+    exit 0
+  fi
+done <<< "$(echo "$PR_RESP" | jq -rc .labels[].name)"
 
 # Remove all the size labels and add the new one
 ALL_LABELS="$EXTRA_SMALL_LABEL,$SMALL_LABEL,$MEDIUM_LABEL,$LARGE_LABEL,$EXTRA_LARGE_LABEL"
