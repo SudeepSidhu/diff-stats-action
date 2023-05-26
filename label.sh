@@ -21,8 +21,8 @@ fi
 if [[ "$DIFF_OUTPUT" =~ ([0-9]+)( insertion) ]]; then
   INSERTIONS=${BASH_REMATCH[1]}
 else
-  echo "Could not extract insertions from \"$DIFF_OUTPUT\" - exiting..."
-  exit 0
+  # If the diff only shows deletions, the word 'insertions' is omitted, which breaks the regex above.
+  INSERTIONS=0
 fi
 
 echo "Insertion count: $INSERTIONS"
